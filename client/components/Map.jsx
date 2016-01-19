@@ -12,42 +12,41 @@ Map = React.createClass({
 Sidenav = React.createClass({
   getInitialState(){
   	return {
-  		showTooltip: false,
   		tooltipDescription: "",
-  		tooltipX: "50px",
-  		tooltipY: "0px"
+      showTooltip: false,
+      tooltipX: "50px",
+      tooltipY: "0px"
   	}
   },
-  setTooltipDescription(item) {
-	  this.setState({
-	    tooltipDescription: item.description
-	  })
-	},
   showTooltip(e){
   	this.setState({
   		showTooltip: true,
-  		tooltipY: e.nativeEvent.target.offsetTop +
-  			(e.nativeEvent.target.offsetHeight / 2) + "px"
+      tooltipY: e.nativeEvent.target.offsetTop + (e.nativeEvent.target.offsetHeight / 2) + "px"
   	})
   },
-  hideTooltip(e){
-  	this.setState({
-  		showTooltip: false
-  	})
+  setTooltipDescription(item) {
+    this.setState({
+      tooltipDescription: item.description
+    })
+  },
+  hideTooltip(e) {
+    this.setState({
+      showTooltip: false
+    })
   },
   render() {
     return (
       <nav className="sidenav">
       	<SidenavTooltip 
-      		tooltipDescription={this.state.tooltipDescription}
-      		showTooltip={this.state.showTooltip} 
-				  tooltipX={this.state.tooltipX} 
-				  tooltipY={this.state.tooltipY}/>
+      		showTooltip={this.state.showTooltip}
+          tooltipDescription={this.state.tooltipDescription}
+          tooltipX={this.state.tooltipX}
+          tooltipY={this.state.tooltipY}/>
         <ul className="sidenav-list">
         	<SidenavIcons 
         		setTooltipDescription={this.setTooltipDescription}
-        		showTooltip={this.showTooltip} 
-					  hideToolip={this.hideTooltip}  />
+            showTooltip={this.showTooltip}
+            hideTooltip={this.hideTooltip} />
         </ul>
       </nav>
     )
@@ -96,8 +95,8 @@ SidenavIcons = React.createClass({
 		  return (
 		    <li key={item.name} 
 		    	onMouseEnter={this.props.setTooltipDescription.bind(null, item)}
-				  onMouseOver={this.props.showTooltip}
 				  onMouseOut={this.props.hideTooltip}
+				  onMouseOver={this.props.showTooltip}
 		    	className="sidenav-list-item">
 		      <i className={item.name}></i>
 		    </li>
