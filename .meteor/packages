@@ -21,3 +21,4 @@ insecure                # Allow all DB writes from clients (for prototyping)
 react
 reactrouter:react-router
 fourseven:scss
+fortawesome:fontawesome
