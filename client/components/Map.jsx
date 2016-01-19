@@ -13,10 +13,16 @@ Sidenav = React.createClass({
   getInitialState(){
   	return {
   		showTooltip: false,
+  		tooltipDescription: "",
   		tooltipX: "50px",
   		tooltipY: "0px"
   	}
   },
+  setTooltipDescription(item) {
+	  this.setState({
+	    tooltipDescription: item.description
+	  })
+	},
   showTooltip(e){
   	this.setState({
   		showTooltip: true,
@@ -32,9 +38,16 @@ Sidenav = React.createClass({
   render() {
     return (
       <nav className="sidenav">
-      	<SidenavTooltip />
+      	<SidenavTooltip 
+      		tooltipDescription={this.state.tooltipDescription}
+      		showTooltip={this.state.showTooltip} 
+				  tooltipX={this.state.tooltipX} 
+				  tooltipY={this.state.tooltipY}/>
         <ul className="sidenav-list">
-        	<SidenavIcons />
+        	<SidenavIcons 
+        		setTooltipDescription={this.setTooltipDescription}
+        		showTooltip={this.showTooltip} 
+					  hideToolip={this.hideTooltip}  />
         </ul>
       </nav>
     )
@@ -44,11 +57,19 @@ Sidenav = React.createClass({
 SidenavTooltip = React.createClass({
 	render(){
 		tooltipStyle = {
-
+			top: this.props.tooltipY,
+  		left: this.props.tooltipX
+		}
+		if (this.props.showTooltip) {
+		  tooltipStyle.opacity = "1";
+		  tooltipStyle.visibility = "visible";
+		} else {
+		  tooltipStyle.opacity = "0";
+		  tooltipStyle.visibility = "hidden";
 		}
 		return (
 			<div className="sidenav-tooltip" style={tooltipStyle}>
-				<p>Data Layer</p>
+				<p>{this.props.tooltipDescription}</p>
 				<div className="tail"></div>
 			</div>
 		)
@@ -61,20 +82,24 @@ SidenavIcons = React.createClass({
 	},
 	render() {
 		let iconList = [
-    "fa fa-database",
-    "fa fa-user-plus",
-    "fa fa-users",
-    "fa fa-bicycle",
-    "fa fa-list-ul",
-    "fa fa-lightbulb-o",
-    "fa fa-list-ol",
-    "fa fa-line-chart",
-    "fa fa-cog"
+    {name: "fa fa-database", description: "Data Layers"},
+    {name: "fa fa-user-plus", description: "Add User"},
+    {name: "fa fa-users", description: "Users"},
+    {name: "fa fa-bicycle", description: "Travel"},
+    {name: "fa fa-list-ul", description: "Todos"},
+    {name: "fa fa-lightbulb-o", description: "Ideas"},
+    {name: "fa fa-list-ol", description: "Priorities"},
+    {name: "fa fa-line-chart", description: "Graphs"},
+    {name: "fa fa-cog", description: "Settings"}
 	  ]
 	  let list = iconList.map((item) => {
 		  return (
-		    <li key={item} className="sidenav-list-item">
-		      <i className={item}></i>
+		    <li key={item.name} 
+		    	onMouseEnter={this.props.setTooltipDescription.bind(null, item)}
+				  onMouseOver={this.props.showTooltip}
+				  onMouseOut={this.props.hideTooltip}
+		    	className="sidenav-list-item">
+		      <i className={item.name}></i>
 		    </li>
 			  )
 			})
