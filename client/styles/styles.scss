@@ -9,28 +9,6 @@ body, p, h1, h2, h3, h4, ul, li  {
   margin: 0;
 }
 
-.content-wrapper {
-	width: calc(100%- 60px);
-	padding-left: 60px;
-	.modal-active-darken {
-		  background-color: rgba(0,0,0,.5);
-		  width: 100%;
-		  height: 100vh;
-		  pointer-events: none;
-		  display: flex;
-		  justify-content: center;
-		  align-items: center;
-		  .modal-container{
-		    width:60%;
-		    min-height: 500px;
-		    background-color: white;
-		    pointer-events: all;
-		    border-radius: 2px;
-		    box-shadow: 5px 8px 10px 0px #565656;
-		  }
-	}
-}
-
 .sidenav {
   position: absolute;
   top: 0;
@@ -54,9 +32,6 @@ body, p, h1, h2, h3, h4, ul, li  {
 	}
 	}
 }
-
-
-
 
 .sidenav-tooltip {
   transition: opacity 0.3s ease;
@@ -86,4 +61,101 @@ body, p, h1, h2, h3, h4, ul, li  {
 	  left: -20px;
 	}
 }
+
+.content-wrapper {
+  width: calc(100% - 60px);
+  padding-left: 60px;
+  z-index: 0;
+}
+
+.modal-active-darken {
+  background-color: rgba(0,0,0,.5);
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  .modal-container {
+    pointer-events: all;
+    width: 60%;
+    min-height: 500px;
+    background-color: white;
+    border-radius: 2px;
+    box-shadow: 5px 8px 10px 0px #565656;
+  }
+}
+
+.volunteer-form-row {
+  height: 225px;
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  .volunteer-form-column-55 {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    box-sizing: border-box;
+  	}
+  .volunteer-form-column-45 {
+    width: 45%;
+    position: relative;
+    height: 225px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .profile-image-wrapper {
+      height: 150px;
+      width: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    button {
+      margin-top: 10px;
+      margin-bottom: -20px;
+    }
+  }
+  .volunteer-form-column-100 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    align-self: center;
+    height: 150px;
+    textarea {
+      background-color: white;
+      width: 93%;
+      height: 100%;
+      font-size: 1rem;
+      border-radius: 2px;
+      border: 1px solid #888;
+      &::-webkit-input-placeholder {
+        padding: 8px;
+      }
+    }
+  }
+}
+
+.submit-modal-buttons {
+  padding: 0 20px;
+  transform: translateY(-15px);
+  display: flex;
+  flex-direction: row-reverse;
+  button {
+    &:first-child {
+      margin-right: 15px;
+    }
+    margin: 0 5px;
+  }
+}
+
+
 
