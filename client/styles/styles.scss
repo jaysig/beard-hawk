@@ -10,6 +10,7 @@ body, p, h1, h2, h3, h4, ul, li  {
 }
 
 .sidenav {
+  z-index:2;
   position: absolute;
   top: 0;
   left: 0;
@@ -70,7 +71,11 @@ body, p, h1, h2, h3, h4, ul, li  {
 
 .modal-active-darken {
   background-color: rgba(0,0,0,.5);
-  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index:1;
+  width: calc(100%- 60px);
   height: 100vh;
   pointer-events: none;
   display: flex;
@@ -233,6 +238,14 @@ input {
   &:hover {
     color: #888;
   }
+}
+
+#map.mapbox {
+  position: absolute;
+  top: 0;
+  bottom: 0;  
+  z-index: 0;
+  width: calc(100% - 60px);
 }
 
 

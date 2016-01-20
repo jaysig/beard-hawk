@@ -1,3 +1,14 @@
+Meteor.startup(function(){
+	Mapbox.load();
+});
+
+Tracker.autorun(function() {
+	if (Mapbox.loaded()){
+		L.mapbox.accessToken = Meteor.settings.public.accessToken;
+		var map = L.mapbox.map("map", Meteor.settings.public.mapId);
+	}
+});
+
 Map = React.createClass({
   getInitialState(){
   	return {
@@ -21,6 +32,7 @@ Map = React.createClass({
 		  <div>
 		    <Sidenav showModal={this.showModal} />
 		    <div className="content-wrapper">
+		    	<div id="map" className="mapbox"></div>
 		    	<Modal 
 		    			showModal={this.state.showModal}
 		    			hideModal={this.hideModal} />
