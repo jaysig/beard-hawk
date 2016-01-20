@@ -19,7 +19,7 @@ Map = React.createClass({
   render() {
     return (
 		  <div>
-		    <Sidenav showModal={this.showModal}/>
+		    <Sidenav showModal={this.showModal} />
 		    <div className="content-wrapper">
 		    	<Modal 
 		    			showModal={this.state.showModal}
@@ -75,28 +75,6 @@ Sidenav = React.createClass({
   }
 })
 
-SidenavTooltip = React.createClass({
-	render(){
-		tooltipStyle = {
-			top: this.props.tooltipY,
-  		left: this.props.tooltipX
-		}
-		if (this.props.showTooltip) {
-		  tooltipStyle.opacity = "1";
-		  tooltipStyle.visibility = "visible";
-		} else {
-		  tooltipStyle.opacity = "0";
-		  tooltipStyle.visibility = "hidden";
-		}
-		return (
-			<div className="sidenav-tooltip" style={tooltipStyle}>
-				<p>{this.props.tooltipDescription}</p>
-				<div className="tail"></div>
-			</div>
-		)
-	}
-})
-
 SidenavIcons = React.createClass({
 	shouldComponentUpdate(nextProps, nextState) {
 		return nextProps.id !== this.props.id
@@ -104,8 +82,8 @@ SidenavIcons = React.createClass({
 	render() {
 		let iconList = [
     {name: "fa fa-database", description: "Data Layers"},
-    {name: "fa fa-user-plus", description: "Add User"},
-    {name: "fa fa-users", description: "Users"},
+    {name: "fa fa-user-plus", description: "Add Volunteer"},
+    {name: "fa fa-users", description: "View Volunteers"},
     {name: "fa fa-bicycle", description: "Travel"},
     {name: "fa fa-list-ul", description: "Todos"},
     {name: "fa fa-lightbulb-o", description: "Ideas"},
@@ -130,5 +108,27 @@ SidenavIcons = React.createClass({
 	  			{list}
 	  		</div>
 	  	)
+	}
+})
+
+SidenavTooltip = React.createClass({
+	render(){
+		tooltipStyle = {
+			top: this.props.tooltipY,
+  		left: this.props.tooltipX
+		}
+		if (this.props.showTooltip) {
+		  tooltipStyle.opacity = "1";
+		  tooltipStyle.visibility = "visible";
+		} else {
+		  tooltipStyle.opacity = "0";
+		  tooltipStyle.visibility = "hidden";
+		}
+		return (
+			<div className="sidenav-tooltip" style={tooltipStyle}>
+				<p>{this.props.tooltipDescription}</p>
+				<div className="tail"></div>
+			</div>
+		)
 	}
 })
