@@ -1,11 +1,28 @@
 Map = React.createClass({
+  getInitialState(){
+  	return {
+  		showModal: false
+  	}
+  },
+  //Declare the type of Modal
+  //Set in our Modal Component
+  showModal(modalType){
+  	this.setState({
+  		showModal: modalType
+  	})
+  },
+  hideModal(){
+  	this.setState({
+  		showModal: false
+  	})
+  },
   render() {
     return (
 		  <div>
+		    <Sidenav showModal={this.showModal}/>
 		    <div className="content-wrapper">
-		    	<h1>This is where the map goes</h1>
+		    	<Modal showModal={this.state.showModal}/>
 		    </div>
-		    <Sidenav />
 		  </div>
 		)
   }
@@ -46,6 +63,7 @@ Sidenav = React.createClass({
           tooltipY={this.state.tooltipY}/>
         <ul className="sidenav-list">
         	<SidenavIcons 
+        		showModal = {this.props.showModal}
         		setTooltipDescription={this.setTooltipDescription}
             showTooltip={this.showTooltip}
             hideTooltip={this.hideTooltip} />
@@ -96,6 +114,7 @@ SidenavIcons = React.createClass({
 	  let list = iconList.map((item) => {
 		  return (
 		    <li key={item.name} 
+		    	onClick={this.props.showModal.bind(null, item.description)}
 		    	onMouseEnter={this.props.setTooltipDescription.bind(null, item)}
 				  onMouseOut={this.props.hideTooltip}
 				  onMouseOver={this.props.showTooltip}
