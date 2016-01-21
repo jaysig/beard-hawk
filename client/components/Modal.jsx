@@ -4,7 +4,7 @@ Modal = React.createClass({
       visibility: "hidden",
       opacity: "0"
     }
-    if (!!this.props.showModal) {
+    if (!!this.props.showModalState) {
       modalStyle.visibility =  "visible"
       modalStyle.opacity = "1"
     }
@@ -13,7 +13,7 @@ Modal = React.createClass({
         <div className="modal-container">
           {/* Change the modal based on the description */}
           {(() => {
-            switch (this.props.showModal) {
+            switch (this.props.showModalState) {
               case "Add Volunteer": return <AddVolunteerModalContent hideModal={this.props.hideModal}/>;
               case "View Volunteers": return <h1>view volunteers</h1>;
               default: return false;

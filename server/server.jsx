@@ -65,5 +65,8 @@ if (VoterDataGeoJSON.find().count() === 0) {
   })
 }
 
+Meteor.publish('geojson', function() {
+  return VoterDataGeoJSON.find();
+})
 
 
