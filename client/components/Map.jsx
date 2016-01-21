@@ -1,18 +1,24 @@
 Meteor.startup(function(){
-	Mapbox.load();
+	Mapbox.load({
+		plugins: ["turf","markercluster","omnivore"]
+	});
 });
 
 Tracker.autorun(function() {
-	if (Mapbox.loaded()){
-		L.mapbox.accessToken = Meteor.settings.public.accessToken;
-		map = L.mapbox.map("map", Meteor.settings.public.mapId);
-	}
+	let handle = Meteor.subscribe('geojson');
+		if (Mapbox.loaded() && handle.ready()){
+			L.mapbox.accessToken = Meteor.settings.public.accessToken;
+			map = L.mapbox.map("map", Meteor.settings.public.mapId);
+		}
 });
 
 MapChild = React.createClass({
 	toggleDataLayer(layerName){
 		if(!this.props.loading){
-			console.log(layerName);
+			let clusterGroup = new L.MarketClusterGroup();
+			let datalayer = L.mapbox.featureLayer().setGeoJSON(this.props.data)
+			clusterGroup.addLayer(datalayer)
+			map.addLayer(clusterGroup)
 		} else {
 			alert("Not ready. Retrying in 3 seconds.") //add loading spiner
 			setTimeout(()=> {

@@ -73,6 +73,7 @@ SidenavIcons = React.createClass({
 	shouldComponentUpdate(nextProps, nextState) {
 		return nextProps.id !== this.props.id
 	},
+  //Only works by clicking the data stack 
   handlePopoutClick(data, e){
     this.props.showPopoutState ?
     this.props.hidePopout () :
