@@ -21,7 +21,10 @@ Popout = React.createClass({
 })
 
 DataLayerPopoutContent = React.createClass({
-	render(){
+	handleDataLayerChange(e){
+    this.props.toggleDataLayer(e.target.id)
+  },
+  render(){
 		return(
 			<div className='popout-content'>
         <ul>
