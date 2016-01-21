@@ -10,26 +10,60 @@ Meteor.startup(function() {
       var list = HTTP.get("https://www.dallasopendata.com/resource/ndxz-gccx.json", {
     
       }, function(err, res) {
-			var keys = _.keys(res.data);
+			var keys = _.keys(res.data)
+
 			_.each(res.data, function(item, i) {
-			  var voter = {};
-			  _.each(keys, function(key) {
-			    voter[key] = res.data[key][i]
-			  })
-			  console.log(keys,'voter');
+			  console.log(item,'item')
+			  // var voter = {};
+			  // _.each(keys, function(key) {
+			  //   console.log(key,'key check')
+			  //   voter[key] = res.data[key][i]
+			  // })
 			  VoterData.insert({
-			    record_id: voter.Record,
-			    contact_type: voter.Type,
-			    street: voter.Street,
-			    city: voter.City,
-			    state: voter.State,
-			    zipcode: voter.Zip,
-			    geo_location: voter.GeoLocation
+			    record_id: item.record_id,
+			    contact_type: item.contact_type,
+			    street: item.street,
+			    city: item.city,
+			    state: item.state,
+			    zipcode: item.zipcode,
+			    geo_location: item.geo_location,
+			    long: item.geo_location.longitude,
+			    lat: item.geo_location.latitude
 			  });
 			})//here
       })
   }
 })
+
+var featureArray = [];
+convertToGeoJSON = function() {
+  _.each(VoterData.find().fetch(), function(voter) {
+    featureArray.push({
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [+voter.long, +voter.lat]
+      },
+      /*this allows for GeoJSON which Map Box Needs*/
+      properties: {
+        rec_id: voter.record_id,
+        contact_type: voter.contact_type,
+        street: voter.street,
+        city: voter.city,
+        state: voter.state,
+        zipcode: +voter.zipcode,
+        geo_location: voter.geo_location
+      }
+    })
+  })
+}
+convertToGeoJSON()
+if (VoterDataGeoJSON.find().count() === 0) {
+  VoterDataGeoJSON.insert({
+    "type": "FeatureCollection",
+    "features": featureArray
+  })
+}
 
 
 
