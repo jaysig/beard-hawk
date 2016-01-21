@@ -13,12 +13,6 @@ Meteor.startup(function() {
 			var keys = _.keys(res.data)
 
 			_.each(res.data, function(item, i) {
-			  console.log(item,'item')
-			  // var voter = {};
-			  // _.each(keys, function(key) {
-			  //   console.log(key,'key check')
-			  //   voter[key] = res.data[key][i]
-			  // })
 			  VoterData.insert({
 			    record_id: item.record_id,
 			    contact_type: item.contact_type,
@@ -30,7 +24,7 @@ Meteor.startup(function() {
 			    long: item.geo_location.longitude,
 			    lat: item.geo_location.latitude
 			  });
-			})//here
+			})
       })
   }
 })
@@ -52,13 +46,19 @@ convertToGeoJSON = function() {
         city: voter.city,
         state: voter.state,
         zipcode: +voter.zipcode,
-        geo_location: voter.geo_location
+        geo_location: voter.geo_location,
+        // icon: {
+        //   "iconUrl": "../client/assets/head-icon.png",
+        //   "iconSize": [32, 32], // size of the icon
+        //   "className": "dot"
+        // }
       }
     })
   })
 }
-convertToGeoJSON()
+
 if (VoterDataGeoJSON.find().count() === 0) {
+  convertToGeoJSON()
   VoterDataGeoJSON.insert({
     "type": "FeatureCollection",
     "features": featureArray

@@ -72,7 +72,6 @@ body, p, h1, h2, h3, h4, ul, li  {
 .content-wrapper {
   width: calc(100% - 60px);
   padding-left: 60px;
-  z-index: 0;
 }
 
 .modal-active-darken {
@@ -81,7 +80,7 @@ body, p, h1, h2, h3, h4, ul, li  {
   top: 0;
   bottom: 0;
   z-index:1;
-  width: calc(100%- 60px);
+  width: calc(100% - 60px);
   height: 100vh;
   pointer-events: none;
   display: flex;

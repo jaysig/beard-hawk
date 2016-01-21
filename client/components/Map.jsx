@@ -13,8 +13,19 @@ Tracker.autorun(function() {
 });
 
 MapChild = React.createClass({
+	refreshVoterFilterLayer(value){
+		console.log(value, 'value test')
+	},
 	toggleDataLayer(layerName){
 		if(!this.props.loading){
+			let filterVoterDataLayer = function() {
+        let clusterGroup = new L.MarkerClusterGroup();
+        let datalayer = L.mapbox.featureLayer().setGeoJSON(this.props.data)
+        clusterGroup.addLayer(datalayer)
+        map.addLayer(clusterGroup)
+      }
+      filterVoterDataLayer()
+
 			//This is not reached
 			let precinctDataLayer = function() {
         let allDataFeatures = VoterDataGeoJSON.find().fetch()[0].features;
@@ -36,6 +47,10 @@ MapChild = React.createClass({
         _.each(precinctFeatureCollections, (precinct) => {
           precinctConcaveHulls.push(turf.convex(precinct, 0.1, 'miles'))
         })
+
+         //Testing but probably won't use
+         var scale = d3.scale.linear()
+          .range([1, 5]);
         // console.log(precinctFeatureCollections[4]);
         let precinctFeatureLayer = L.mapbox.featureLayer(precinctConcaveHulls);
         map.addLayer(precinctFeatureLayer);
@@ -62,6 +77,7 @@ MapChild = React.createClass({
 		return(
 				<div>
 			    <Sidenav 
+			    refreshVoterFilterLayer={this.refreshVoterFilterLayer}
 			    toggleDataLayer={this.toggleDataLayer}
 			    showModal={this.props.showModal} />
 			    <div className="content-wrapper">

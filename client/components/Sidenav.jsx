@@ -97,9 +97,9 @@ SidenavIcons = React.createClass({
 		    	onClick={(()=> {
 		    		switch (item.description) {
 		    			case "Add Volunteer": return this.props.showModal.bind(null,item.description);
-		    			case "View Volunteers": return this.props.showModal.bind(null, item.description);
-					    case "View as List": return this.props.showModal.bind(null, item.description);
-					    case "Leaderboard": return this.props.showModal.bind(null, item.description);
+		    			// case "View Volunteers": return this.props.showModal.bind(null, item.description);
+					    // case "View as List": return this.props.showModal.bind(null, item.description);
+					    // case "Leaderboard": return this.props.showModal.bind(null, item.description);
               case "Data Layers": return this.handlePopoutClick.bind(null, <DataLayerPopoutContent toggleDataLayer={this.props.toggleDataLayer} />);
 					    default: return null;
 		    		}
