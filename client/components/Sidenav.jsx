@@ -115,7 +115,7 @@ SidenavIcons = React.createClass({
 		    			case "View Volunteers": return this.props.showModal.bind(null, item.description);
 					    case "View as List": return this.props.showModal.bind(null, item.description);
 					    case "Leaderboard": return this.props.showModal.bind(null, item.description);
-              case "Data Layers": return this.props.showPopout.bind(null, item.description);
+              case "Data Layers": return this.handlePopoutClick.bind(null, dataLayerInputs);
 					    default: return null;
 		    		}
 		    	})()}
