@@ -1,6 +1,10 @@
 Meteor.startup(function(){
 	Mapbox.load({
-		plugins: ["turf","markercluster","omnivore"]
+		plugins: [
+			"turf",
+			"markercluster",
+			"omnivore"
+		]
 	});
 });
 
@@ -13,32 +17,32 @@ Tracker.autorun(function() {
 });
 
 MapChild = React.createClass({
-	toggleDataLayer(layerName){
-		if(!this.props.loading){
-			let clusterGroup = new L.MarketClusterGroup();
-			let datalayer = L.mapbox.featureLayer().setGeoJSON(this.props.data)
-			clusterGroup.addLayer(datalayer)
-			map.addLayer(clusterGroup)
-		} else {
-			alert("Not ready. Retrying in 3 seconds.") //add loading spiner
-			setTimeout(()=> {
-				this.toggleDataLayer(layerName);
-			}, 3000)
-		}
-	},
+	// toggleDataLayer(layerName){
+	// 	if(!this.props.loading){
+	// 		let clusterGroup = new L.MarkerClusterGroup();
+	// 		let datalayer = L.mapbox.featureLayer().setGeoJSON(this.props.data)
+	// 		clusterGroup.addLayer(datalayer)
+	// 		map.addLayer(clusterGroup)
+	// 	} else {
+	// 		alert("Not ready. Retrying in 3 seconds.") //add loading spiner
+	// 		setTimeout(()=> {
+	// 			this.toggleDataLayer(layerName);
+	// 		}, 3000)
+	// 	}
+	// },
 	render(){
 		 if (!this.props.loading) {
-      var voterLayer = L.mapbox.featureLayer().addTo(map);
-      voterLayer.setGeoJSON(this.props.data);
+      // var voterLayer = L.mapbox.featureLayer().addTo(map);
+      // voterLayer.setGeoJSON(this.props.data);
     }
 		return(
 				<div>
 			    <Sidenav 
-			    toggleDataLayer={this.toggleDataLayer}
+			    // toggleDataLayer={this.toggleDataLayer}
 			    showModal={this.props.showModal} />
 			    <div className="content-wrapper">
 			    	<Modal 
-			    			showModal={this.props.showModalState}
+			    			showModalState={this.props.showModalState}
 			    			hideModal={this.props.hideModal} />
 			    	<div id="map" className="mapbox"></div>
 			    </div>
@@ -71,14 +75,17 @@ Map = React.createClass({
 		  	subscribe = { () => {
 		  		return Meteor.subscribe('geojson') }}
 		  	fetch = {() => {
-		  		return {data: VoterDataGeoJSON.find().fetch() }}}
+		  		
+		  		return {data: VoterDataGeoJSON.find().fetch()[0].features }}}
 		  	render = { ({loading, data}) => {
+		  		
 		  		return <MapChild
 		  			showModalState={this.state.showModalState}
 		  			hideModal={this.hideModal}
 		  			showModal={this.showModal}
 		  			loading={loading}
 		  			data={data}
+
 		  			/>	}
 		  	}
 		  	/>
