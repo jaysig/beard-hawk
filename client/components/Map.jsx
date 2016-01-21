@@ -1,44 +1,68 @@
 Meteor.startup(function(){
 	Mapbox.load({
-		plugins: [
-			"turf",
-			"markercluster",
-			"omnivore"
-		]
+		plugins: ["turf","markercluster","omnivore"]
 	});
 });
 
 Tracker.autorun(function() {
-	let handle = Meteor.subscribe('geojson');
-		if (Mapbox.loaded() && handle.ready()){
-			L.mapbox.accessToken = Meteor.settings.public.accessToken;
-			map = L.mapbox.map("map", Meteor.settings.public.mapId);
-		}
+	//let handle = Meteor.subscribe('geojson') THIS Breaks the icons
+	if (Mapbox.loaded()){
+ 		L.mapbox.accessToken = Meteor.settings.public.accessToken;
+ 		map = L.mapbox.map("map", Meteor.settings.public.mapId);
+ 	}
 });
 
 MapChild = React.createClass({
-	// toggleDataLayer(layerName){
-	// 	if(!this.props.loading){
-	// 		let clusterGroup = new L.MarkerClusterGroup();
-	// 		let datalayer = L.mapbox.featureLayer().setGeoJSON(this.props.data)
-	// 		clusterGroup.addLayer(datalayer)
-	// 		map.addLayer(clusterGroup)
-	// 	} else {
-	// 		alert("Not ready. Retrying in 3 seconds.") //add loading spiner
-	// 		setTimeout(()=> {
-	// 			this.toggleDataLayer(layerName);
-	// 		}, 3000)
-	// 	}
-	// },
+	toggleDataLayer(layerName){
+		if(!this.props.loading){
+			//This is not reached
+			let precinctDataLayer = function() {
+        let allDataFeatures = VoterDataGeoJSON.find().fetch()[0].features;
+        var stringOfCoords = new Set();
+        let uniqueDataFeatures = _.filter(allDataFeatures, function(feature) {
+          console.log(feature)
+          if (!stringOfCoords.has(feature.geometry.coordinates.toString()) && feature.geometry.coordinates.toString() != "0,0") {
+            stringOfCoords.add(feature.geometry.coordinates.toString())
+            return feature
+          }
+        })
+        let groupByPrecinct = _.groupBy(uniqueDataFeatures, (feature) => { return feature.properties.precinct_name; })
+        let precinctKeys = _.keys(groupByPrecinct);
+        let precinctFeatureCollections = [];
+        _.each(precinctKeys, (key) => {
+          precinctFeatureCollections.push(turf.featurecollection(groupByPrecinct[key]))
+        })
+        let precinctConcaveHulls = [];
+        _.each(precinctFeatureCollections, (precinct) => {
+          precinctConcaveHulls.push(turf.convex(precinct, 0.1, 'miles'))
+        })
+        // console.log(precinctFeatureCollections[4]);
+        let precinctFeatureLayer = L.mapbox.featureLayer(precinctConcaveHulls);
+        map.addLayer(precinctFeatureLayer);
+      }
+
+      let allDataLayer = function() {
+        let clusterGroup = new L.MarkerClusterGroup();
+        let datalayer = L.mapbox.featureLayer().setGeoJSON(this.props.data)
+        clusterGroup.addLayer(datalayer)
+        map.addLayer(clusterGroup)
+      }
+		} else {
+			alert("Not ready. Retrying in 3 seconds.") //add loading spiner
+			setTimeout(()=> {
+				this.toggleDataLayer(layerName);
+			}, 3000)
+		}
+	},
 	render(){
 		 if (!this.props.loading) {
-      // var voterLayer = L.mapbox.featureLayer().addTo(map);
-      // voterLayer.setGeoJSON(this.props.data);
+      var voterLayer = L.mapbox.featureLayer().addTo(map);
+      voterLayer.setGeoJSON(this.props.data);
     }
 		return(
 				<div>
 			    <Sidenav 
-			    // toggleDataLayer={this.toggleDataLayer}
+			    toggleDataLayer={this.toggleDataLayer}
 			    showModal={this.props.showModal} />
 			    <div className="content-wrapper">
 			    	<Modal 
@@ -75,17 +99,14 @@ Map = React.createClass({
 		  	subscribe = { () => {
 		  		return Meteor.subscribe('geojson') }}
 		  	fetch = {() => {
-		  		
-		  		return {data: VoterDataGeoJSON.find().fetch()[0].features }}}
+		  		return {data: VoterDataGeoJSON.find().fetch() }}}
 		  	render = { ({loading, data}) => {
-		  		
 		  		return <MapChild
 		  			showModalState={this.state.showModalState}
 		  			hideModal={this.hideModal}
 		  			showModal={this.showModal}
 		  			loading={loading}
 		  			data={data}
-
 		  			/>	}
 		  	}
 		  	/>
