@@ -30,7 +30,7 @@ DataLayerPopoutContent = React.createClass({
         <ul>
           <li>
             <input 
-              onChange={this.handleDataLayerChange} 
+              
               type='radio' 
               name='data-layer-group' 
               id='no-data' 
@@ -39,7 +39,7 @@ DataLayerPopoutContent = React.createClass({
           </li>
           <li>
             <input 
-              onChange={this.handleDataLayerChange}
+              
               type='radio' 
               name='data-layer-group' 
               id='voter-data2' />
@@ -47,7 +47,7 @@ DataLayerPopoutContent = React.createClass({
           </li>
           <li>
             <input 
-              onChange={this.handleDataLayerChange}
+              
               type='radio' 
               name='data-layer-group' 
               id='filter-non-voters' />
