@@ -57,6 +57,13 @@ MapChild = React.createClass({
      if (!this.props.loading) {
       // console.log(L.mapbox.featureLayer().addTo(map))
       var voterLayer = L.mapbox.featureLayer().addTo(map);
+      
+      voterLayer.on('layeradd', function(e) {
+          var marker = e.layer,
+              feature = marker.feature;
+              console.log(L.icon(feature.properties.icon))
+          marker.setIcon(L.icon(feature.properties.icon));
+      });
       voterLayer.setGeoJSON(this.props.data);
       console.log(this.props.data)
     }

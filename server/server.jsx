@@ -39,6 +39,11 @@ convertToGeoJSON = function() {
         city: voter.city,
         state: voter.state,
         zipcode: +voter.zipcode,
+        icon: {
+          "iconUrl": "http://icons.iconarchive.com/icons/sykonist/south-park/32/Cartman-General-head-icon.png",
+          "iconSize": [32, 32], // size of the icon12
+          "className": "dot"
+        },
         geo_location: voter.geo_location
       }
     })
@@ -46,13 +51,13 @@ convertToGeoJSON = function() {
 }
 
 console.log(VoterDataGeoJSON.find().count())
-if (VoterDataGeoJSON.find().count() < 1001) {
+if (VoterDataGeoJSON.find().count() < 3) {
   convertToGeoJSON()
   VoterDataGeoJSON.insert({
     "type": "FeatureCollection",
     "features": featureArray
   })
-  console.log(VoterDataGeoJSON.find().fetch())
+  console.log(VoterDataGeoJSON.find().count())
 }
 console.log(featureArray.length,'length')
 Meteor.publish('geojson', function() {
